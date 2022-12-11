@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <title>{{ .Title }}</title>
+        <style>
+            .insight{
+                text-align: center;
+            }
+            .insight ul  li{
+                display: inline;
+                margin: 0 2%;
+            }
+            h2{
+                text-align: center;
+            }
+            .langs{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+            .repositories, .followers {
+                min-width: 630px;
+                width: 50%;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: calc(100% *0.25) calc(100% *0.25) calc(100% *0.25) calc(100% *0.25);
+            }
+            .repositories  a,  .followers a {
+                color: #000000;
+            }
+
+            .followers .follower{
+                margin: 2% 0;
+
+            }
+
+            footer{
+                margin: 2% 0;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <section class="insight">
+            <h1>User <a href="https://github.com/{{ .Username }}" >{{ .Username }}</a></h1>
+            <ul>
+                <li><strong>Relevance:</strong> {{ .Relevance}}</li>
+                <li><strong>Collect:</strong> {{ .LastCollect }} </li>
+                <li><strong>Starts:</strong> {{ .TotalStarts }}</li>
+                <li><strong>Repositories:</strong> {{ .TotalRepos }}</li>
+                <li><strong>Languages:</strong> {{ .TotalLangs }}</li>
+            </ul>
+        </section>
+
+        <section class="langs">
+            <table>
+                <tr>
+                    <th>Langague</th>
+                    <th>Used % </th>
+                </tr>
+                {{range .Langs}}
+                    <tr>
+                        <td>{{ .Language}}</td>
+                        <td>
+                            <progress class="used" value="{{  .Percent }}" max="100"></progress>
+                        </td>
+                    </tr>
+                {{end}}
+            </table>
+        </section>
+
+        <h2>Top Repositories</h2>
+        <section class="repositories">
+            {{range  .Repositories}}
+                <div>
+                    <div>Name: <strong><a href="https://github.com/{{ $.Username }}/{{ .Name }}">{{ .Name }}</a></strong> </div>
+                    <div>Forks: <strong>{{ .CountForks}}</strong> </div>
+                    <div>Stars: <strong>{{ .CountStars}}</strong> </div>
+                </div>
+            {{end}}
+        </section>
+        <h2>Top Followers</h2>
+
+        <section class="followers">
+            {{range  .Followers}}
+                <div class="follower">
+                    <strong><a href="/u/{{ .Username }}">{{ .Username }}</a></strong>
+                </div>
+            {{end}}
+        </section>
+
+        <footer>
+            <a href="https://felipemateus.com">Felipe Mateus</a> &copy;
+        </footer>
+    </body>
+</html>
